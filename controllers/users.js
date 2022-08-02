@@ -1,4 +1,8 @@
 const User = require('../models/user');
+const NotFoundError = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
+// const UnauthorizedError = require('../errors/UnauthorizedError');
+// const ConflictError = require('../errors/ConflictError');
 
 // возвращает пользователя
 module.exports.getUser = (req, res, next) => {

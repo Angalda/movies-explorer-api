@@ -1,18 +1,45 @@
 const Movie = require('../models/movie');
+const NotFoundError = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 // возвращает все фильмы
-module.exports.getCards = (req, res, next) => {
+module.exports.getMovies = (req, res, next) => {
   Movie.find({})
     .then((films) => res.status(200).send({ data: films }))
     .catch(next);
 };
 
 // создаёт фильм
-module.exports.createFilm = (req, res, next) => {
-  const owner = req.user._id;
-  const { country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId
+module.exports.postMovies = (req, res, next) => {
+  // const owner = req.user._id;
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
   } = req.body;
-  return Film.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId  })
+
+  return Movie.create({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+  })
     // вернём записанные в базу данные
     .then((film) => res.send({ data: film }))
     // данные не записались, вернём ошибку
@@ -24,19 +51,19 @@ module.exports.createFilm = (req, res, next) => {
 };
 
 // удаляет фильм по идентификатору
-module.exports.deleteFilmId = (req, res, next) => {
+module.exports.deleteMovies = (req, res, next) => {
   const userId = req.user._id;
   const { filmId } = req.params;
-  Film.findById(filmId)
+  Movie.findById(filmId)
     .then((film) => {
       if (!film) {
         throw new NotFoundError('Не найдено');
       }
 
-      if (userId !== card.owner.toString()) {
+      if (userId !== film.owner.toString()) {
         throw new ForbiddenError('Доступ запрещен');
       } else {
-        Film.findByIdAndRemove(filmId)
+        Movie.findByIdAndRemove(filmId)
           .then((result) => { res.send({ result }); })
           .catch(next);
       }

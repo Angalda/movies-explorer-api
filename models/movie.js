@@ -11,7 +11,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  duration : {
+  duration: {
     type: Number,
     required: true,
   },
@@ -19,11 +19,11 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description : {
+  description: {
     type: String,
     required: true,
   },
-  image : {
+  image: {
     type: String,
     validate: {
       validator: (v) => validateUrl.test(v),
@@ -63,6 +63,6 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
 
-})
+});
 
 module.exports = mongoose.model('movie', movieSchema);
