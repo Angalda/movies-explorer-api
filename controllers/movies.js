@@ -12,7 +12,7 @@ module.exports.getMovies = (req, res, next) => {
 
 // создаёт фильм
 module.exports.postMovies = (req, res, next) => {
-  // const owner = req.user._id;
+  const owner = req.user._id;
   const {
     country,
     director,
@@ -20,11 +20,12 @@ module.exports.postMovies = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
-    nameRU,
-    nameEN,
+    trailerLink,
     thumbnail,
     movieId,
+    nameRU,
+    nameEN,
+
   } = req.body;
 
   return Movie.create({
@@ -34,11 +35,12 @@ module.exports.postMovies = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
-    nameRU,
-    nameEN,
+    trailerLink,
     thumbnail,
     movieId,
+    nameRU,
+    nameEN,
+    owner,
   })
     // вернём записанные в базу данные
     .then((film) => res.send({ data: film }))

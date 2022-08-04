@@ -20,12 +20,6 @@ module.exports.validationCreateUser = celebrate({
   }),
 });
 
-module.exports.validationUpdateAvatar = celebrate({
-  body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(validateUrl),
-  }),
-});
-
 module.exports.validationLogin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),
@@ -46,10 +40,19 @@ module.exports.validationGetUserId = celebrate({
   }),
 });
 
-module.exports.validationCreateCard = celebrate({
+module.exports.validationCreateMovie = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(validateUrl),
+    country: Joi.string().required(),
+    director: Joi.string().required(),
+    duration: Joi.number().required(),
+    year: Joi.string().required(),
+    description: Joi.string().required(),
+    image: Joi.string().required().pattern(validateUrl),
+    trailerLink: Joi.string().required().pattern(validateUrl),
+    thumbnail: Joi.string().required().pattern(validateUrl),
+    movieId: Joi.number().required(),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 });
 

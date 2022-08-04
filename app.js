@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -5,9 +6,11 @@ const { errors } = require('celebrate');
 
 const NotFoundError = require('./errors/NotFoundError');
 // const cors = require('cors');
-const auth = require('./middlewares/auth');
-
+const { createUser, login } = require('./controllers/users');
+// const auth = require('./middlewares/auth');
 const { validationCreateUser, validationLogin } = require('./middlewares/validation');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { PORT = 3001 } = process.env;
 const app = express();
 
@@ -17,13 +20,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 });
 
+app.use(requestLogger); // подключаем логгер запросов
+
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
 
-app.use(auth);
+// app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
+
+app.use(errorLogger); // подключаем логгер ошибок
 
 app.use(() => {
   throw new NotFoundError('Не найдено');

@@ -25,6 +25,7 @@
     "body-parser": "^1.20.0",
     "celebrate": "^15.0.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "editorconfig": "^0.15.3",
     "eslint": "^8.21.0",
     "eslint-config-airbnb-base": "^15.0.0",
