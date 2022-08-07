@@ -8,7 +8,7 @@ const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { createUser, login } = require('./controllers/users');
-// const auth = require('./middlewares/auth');
+const auth = require('./middlewares/auth');
 const { validationCreateUser, validationLogin } = require('./middlewares/validation');
 
 const { PORT = 3001 } = process.env;
@@ -44,7 +44,7 @@ app.get('/crash-test', () => {
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
 
-// app.use(auth);
+app.use(auth);
 
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
