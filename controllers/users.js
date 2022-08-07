@@ -25,7 +25,12 @@ module.exports.createUser = (req, res, next) => {
       data: {
         name: user.name, email: user.email,
       },
-    }));
+    }))
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Некорректные данные'));
+      } else { next(err); }
+    });
 };
 
 // возвращает пользователя

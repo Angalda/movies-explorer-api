@@ -11,7 +11,7 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 // создаёт фильм
-module.exports.postMovies = (req, res, next) => {
+module.exports.createMovie = (req, res, next) => {
   const owner = req.user._id;
   const {
     country,
@@ -28,7 +28,7 @@ module.exports.postMovies = (req, res, next) => {
 
   } = req.body;
 
-  return Movie.create({
+  Movie.create({
     country,
     director,
     duration,

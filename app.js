@@ -2,17 +2,30 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { errors } = require('celebrate');
-
 const NotFoundError = require('./errors/NotFoundError');
-// const cors = require('cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { createUser, login } = require('./controllers/users');
 // const auth = require('./middlewares/auth');
 const { validationCreateUser, validationLogin } = require('./middlewares/validation');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3001 } = process.env;
 const app = express();
+
+const options = {
+  origin: [
+    'http://localhost:3000',
+    'http://mesto.angalda.nomoredomains.xyz',
+    'https://mesto.angalda.nomoredomains.xyz',
+    'http://api.mesto.angalda.nomoredomains.xyz',
+    'https://api.mesto.angalda.nomoredomains.xyz',
+  ],
+  credentials: true,
+};
+
+app.use('*', cors(options));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -22,6 +35,12 @@ mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
 
 app.use(requestLogger); // подключаем логгер запросов
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.post('/signin', validationLogin, login);
 app.post('/signup', validationCreateUser, createUser);
 
@@ -30,11 +49,11 @@ app.post('/signup', validationCreateUser, createUser);
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
 
-app.use(errorLogger); // подключаем логгер ошибок
-
 app.use(() => {
   throw new NotFoundError('Не найдено');
 });
+
+app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 
 // наш централизованный обработчик
