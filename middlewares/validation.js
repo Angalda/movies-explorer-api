@@ -56,8 +56,8 @@ module.exports.validationCreateMovie = celebrate({
   }),
 });
 
-/* module.exports.validationMovieId = celebrate({
+module.exports.validationMovieId = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string(),
+    cardId: Joi.string().hex().length(24),
   }),
-}); */
+});
