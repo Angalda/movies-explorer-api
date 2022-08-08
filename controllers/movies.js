@@ -55,7 +55,7 @@ module.exports.createMovie = (req, res, next) => {
 // удаляет фильм по идентификатору
 module.exports.deleteMovies = (req, res, next) => {
   const userId = req.user._id;
-  const movieId = req.params;
+  const movieId = req.params.id;
   Movie.findById(movieId)
     .then((film) => {
       if (!film) {
