@@ -17,10 +17,10 @@ const app = express();
 const options = {
   origin: [
     'http://localhost:3000',
-    'http://mesto.angalda.nomoredomains.xyz',
-    'https://mesto.angalda.nomoredomains.xyz',
-    'http://api.mesto.angalda.nomoredomains.xyz',
-    'https://api.mesto.angalda.nomoredomains.xyz',
+    'http://movies.angalda.nomoredomains.sbs',
+    'https://movies.angalda.nomoredomains.sbs',
+    'http://api.movies.angalda.nomoredomains.sbs',
+    'https://api.movies.angalda.nomoredomains.sbs',
   ],
   credentials: true,
 };
