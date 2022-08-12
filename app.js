@@ -1,13 +1,16 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
+
+const { limiter } = ('./ratelimiter');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { dataMovies, PORT } = require('./utils/config');
 
-const { PORT = 3001 } = process.env;
 const app = express();
 
 const options = {
@@ -21,12 +24,14 @@ const options = {
   credentials: true,
 };
 
+app.use(helmet());
+
 app.use('*', cors(options));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // подключаемся к серверу mongo
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(dataMovies, {
 });
 
 app.use(requestLogger); // подключаем логгер запросов
@@ -37,6 +42,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
+app.use(limiter);
 app.use(router);
 
 app.use(errorLogger); // подключаем логгер ошибок
