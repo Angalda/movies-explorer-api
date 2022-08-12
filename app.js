@@ -4,12 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
-const NotFoundError = require('./errors/NotFoundError');
+const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-
-const { createUser, login } = require('./controllers/users');
-const auth = require('./middlewares/auth');
-const { validationCreateUser, validationLogin } = require('./middlewares/validation');
 
 const { PORT = 3001 } = process.env;
 const app = express();
@@ -41,17 +37,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.post('/signin', validationLogin, login);
-app.post('/signup', validationCreateUser, createUser);
-
-app.use(auth);
-
-app.use('/users', require('./routes/users'));
-app.use('/movies', require('./routes/movies'));
-
-app.use(() => {
-  throw new NotFoundError('Не найдено');
-});
+app.use(router);
 
 app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate

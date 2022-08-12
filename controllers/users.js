@@ -7,7 +7,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
-// const ConflictError = require('../errors/ConflictError');
+const ConflictError = require('../errors/ConflictError');
 
 // создаёт пользователя
 module.exports.createUser = (req, res, next) => {
@@ -27,8 +27,10 @@ module.exports.createUser = (req, res, next) => {
       },
     }))
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError('Некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь уже существует'));
       } else { next(err); }
     });
 };
@@ -64,9 +66,9 @@ module.exports.updateUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Некорректные данные'));
-        return;
-      }
-      next(err);
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь уже существует'));
+      } else { next(err); }
     });
 };
 
