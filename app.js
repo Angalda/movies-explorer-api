@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { errors } = require('celebrate');
 
-const { limiter } = ('./ratelimiter');
+const { limiter } = require('./rateLimiter');
 const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { dataMovies, PORT } = require('./utils/config');
