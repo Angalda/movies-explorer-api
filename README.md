@@ -2,6 +2,12 @@
 
 Дипломная работа на Яндекс Практикуме.
 
+Технологии:
+- Node.js
+- Express.js
+- Cors
+- MongoDB
+
 Посмотреть проект: https://movies.angalda.nomoredomains.sbs/movies <br>
 Макет: https://disk.yandex.ru/d/AaeJ9woPR-eNSQ <br>
 Ссылка на API:  https://api.movies.angalda.nomoredomains.sbs <br>
@@ -17,6 +23,7 @@
 Клонировать: git clone git@github.com:Angalda/movies-explorer-frontend.git <br>
 Установить зависимости: в корневой директории npm install <br>
 Запустить (порт 3000): npm run start <br>
+
 
 51.250.86.108
 
