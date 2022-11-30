@@ -4,7 +4,7 @@
 
 Посмотреть проект: https://movies.angalda.nomoredomains.sbs/movies <br>
 Макет: https://disk.yandex.ru/d/AaeJ9woPR-eNSQ <br>
-Ссылка на API:  api.movies.angalda.nomoredomains.sbs <br>
+Ссылка на API:  https://api.movies.angalda.nomoredomains.sbs <br>
 
 Как развернуть API:
 
